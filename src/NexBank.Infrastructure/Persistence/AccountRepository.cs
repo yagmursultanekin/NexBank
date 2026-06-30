@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore;
+using NexBank.Domain.Entities;
+using NexBank.Domain.Interfaces;
+
+namespace NexBank.Infrastructure.Persistence;
+
+public class AccountRepository : IAccountRepository //bu sınıf sözleşmeyi implenemte ediyor. interfaceteki 3 metodun gerçek kodunu burada yazıyoruz
+{
+    private readonly NexBankDbContext _context;
+
+    public AccountRepository(NexBankDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<List<Account>> GetByUserIdAsync(int userId)
+    {
+        return await _context.Accounts
+            .Where(a => a.UserId == userId)
+            .ToListAsync();
+    }
+
+    public async Task<Account?> GetByIdAsync(int accountId)
+    {
+        return await _context.Accounts
+            .FirstOrDefaultAsync(a => a.Id == accountId);
+    }
+
+    public async Task<List<Transaction>> GetTransactionsAsync(int accountId,DateTime startDate, DateTime endDate)
+    {
+        return await _context.Transactions
+            .Where(t => t.AccountId == accountId
+            && t.TransactionDate >= startDate
+            && t.TransactionDate <= endDate)
+            .OrderByDescending(t => t.TransactionDate)
+            .ToListAsync();
+    }
+}

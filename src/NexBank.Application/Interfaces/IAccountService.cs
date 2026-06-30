@@ -9,7 +9,7 @@ namespace NexBank.Application.Interfaces;
 
 public interface IAccountService
 {
-    Task<List<AccountDto>> GetAccountByUserIdAsync(int userId);
+    Task<List<AccountDto>> GetAccountsByUserIdAsync(int userId);
     Task<AccountDto?> GetAccountByIdAsync(int accountId);
     Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(int accountId, DateTime startDate, DateTime endDate);
 }
