@@ -1,21 +1,37 @@
 using Microsoft.EntityFrameworkCore;
+using NexBank.Application.Interfaces;
+using NexBank.Application.Services;
+using NexBank.Domain.Interfaces;
 using NexBank.Infrastructure.Persistence;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+// Veritabanı
 builder.Services.AddDbContext<NexBankDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Repository kayıtları
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+// Service kayıtları
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+// AutoMapper
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<NexBank.Application.Mappings.MappingProfile>();
+});
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// HTTP pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,9 +39,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
