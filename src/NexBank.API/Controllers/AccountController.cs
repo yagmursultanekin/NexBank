@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NexBank.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 namespace NexBank.API.Controllers;
@@ -17,20 +18,16 @@ public class AccountController : ControllerBase
         _accountService = accountService;
     }
 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetAccountsByUserId(int userId)
+    [HttpGet("my-accounts")]
+    public async Task<IActionResult> GetMyAccounts()
     {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null)
+            return Unauthorized();
+
+        var userId = int.Parse(userIdClaim);
         var accounts = await _accountService.GetAccountsByUserIdAsync(userId);
         return Ok(accounts);
-    }
-
-    [HttpGet("{accountId}")]
-    public async Task<IActionResult> GetAccountById(int accountId)
-    {
-        var account = await _accountService.GetAccountByIdAsync(accountId);
-        if (account == null)
-            return NotFound();
-        return Ok(account);
     }
 
     [HttpGet("{accountId}/transactions")]
