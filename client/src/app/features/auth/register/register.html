@@ -1,0 +1,74 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="login-header">
+      <h1>NexBank</h1>
+      <p>Yeni hesap oluşturun</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="fullName">Ad Soyad</label>
+        <input
+          id="fullName"
+          type="text"
+          [(ngModel)]="registerData.fullName"
+          name="fullName"
+          placeholder="Adınız Soyadınız"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-posta</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="registerData.email"
+          name="email"
+          placeholder="ornek@email.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Şifre</label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="registerData.password"
+          name="password"
+          placeholder="Güçlü bir şifre belirleyin"
+          required
+        />
+        <div class="password-strength" *ngIf="registerData.password">
+          <div class="strength-bar">
+            <div
+              class="strength-fill"
+              [ngClass]="getStrengthClass()"
+              [style.width.%]="getPasswordStrength() * 20"
+            ></div>
+          </div>
+          <span class="strength-label" [ngClass]="getStrengthClass()">
+            {{ getStrengthLabel() }}
+          </span>
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Kayıt yapılıyor...' : 'Kayıt Ol' }}
+      </button>
+
+      <p class="switch-link">
+        Zaten hesabınız var mı? <a routerLink="/login">Giriş yapın</a>
+      </p>
+
+    </form>
+
+  </div>
+</div>

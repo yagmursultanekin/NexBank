@@ -1,0 +1,50 @@
+<div class="dashboard-container">
+
+  <header class="dashboard-header">
+    <div class="header-left">
+      <h1>NexBank</h1>
+    </div>
+    <div class="header-right">
+      <button class="logout-btn" (click)="logout()">Çıkış Yap</button>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+
+    <div class="loading" *ngIf="isLoading">
+      Hesaplar yükleniyor...
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <ng-container *ngIf="!isLoading && !errorMessage">
+
+      <section class="summary-card">
+        <p class="summary-label">Toplam Bakiye (TL)</p>
+        <h2 class="summary-value">{{ getTotalBalance() | number:'1.2-2' }} ₺</h2>
+      </section>
+
+      <section class="accounts-section">
+        <h3>Hesaplarım</h3>
+
+        <div class="account-grid">
+          <div class="account-card" *ngFor="let account of accounts">
+            <div class="account-header">
+              <span class="account-currency">{{ account.currency }}</span>
+            </div>
+            <p class="account-number">{{ account.accountNumber }}</p>
+            <p class="account-iban">{{ account.iban }}</p>
+            <h4 class="account-balance">
+              {{ account.balance | number:'1.2-2' }}
+              {{ account.currency === 'TRY' ? '₺' : account.currency }}
+            </h4>
+          </div>
+        </div>
+      </section>
+
+    </ng-container>
+
+  </main>
+</div>

@@ -28,5 +28,8 @@ getToken(): string | null {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+  logout(): void {
+  localStorage.removeItem('token');
+}
 }
 

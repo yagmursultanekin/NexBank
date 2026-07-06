@@ -37,7 +37,7 @@ builder.Services.AddHttpClient<VakifBankAuthService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 // Service kayıtları
-builder.Services.AddScoped<IAccountService, VakifBankAccountService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 // AutoMapper
