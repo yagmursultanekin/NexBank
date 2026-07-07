@@ -36,7 +36,7 @@ export class RegisterComponent {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.errorMessage = 'Bu e-posta adresi zaten kayıtlı olabilir.';
+        this.errorMessage = 'Bu e-posta adresi zaten kayıtlı.';
         this.isLoading = false;
       }
     });

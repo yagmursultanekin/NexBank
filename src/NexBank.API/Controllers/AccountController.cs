@@ -8,9 +8,7 @@ namespace NexBank.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[Authorize]
-//localhost:4000/api/Account/my-accounts
-
+[Authorize]
 public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
@@ -44,8 +42,15 @@ public class AccountController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
-        var accounts = await _accountService.GetAccountsByUserIdAsync(userId.Value);
-        return Ok(accounts);
+        var isOwner = await _accountService.IsAccountOwnedByUserAsync(accountId, userId.Value);
+        if (!isOwner)
+            return Forbid();
+
+        var account = await _accountService.GetAccountByIdAsync(accountId);
+        if (account == null)
+            return NotFound();
+
+        return Ok(account);
     }
 
     [HttpGet("{accountId}/transactions")]
@@ -55,9 +60,14 @@ public class AccountController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
-        var accounts = await _accountService.GetAccountsByUserIdAsync(userId.Value);
-        return Ok(accounts);
+        var isOwner = await _accountService.IsAccountOwnedByUserAsync(accountId, userId.Value);
+        if (!isOwner)
+            return Forbid();
+
+        var transactions = await _accountService.GetTransactionsByAccountIdAsync(accountId, startDate, endDate);
+        return Ok(transactions);
     }
+
     [HttpPost("{accountId}/transactions")]
     public async Task<IActionResult> AddTransaction(int accountId, CreateTransactionDto dto)
     {
@@ -65,7 +75,10 @@ public class AccountController : ControllerBase
         if (userId == null)
             return Unauthorized();
 
-        var accounts = await _accountService.GetAccountsByUserIdAsync(userId.Value);
-        return Ok(accounts);
+        var result = await _accountService.AddTransactionAsync(accountId, userId.Value, dto);
+        if (result == null)
+            return Forbid();
+
+        return Ok(result);
     }
 }

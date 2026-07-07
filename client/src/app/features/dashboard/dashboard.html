@@ -30,7 +30,7 @@
         <h3>Hesaplarım</h3>
 
         <div class="account-grid">
-          <div class="account-card" *ngFor="let account of accounts">
+          <div class="account-card" *ngFor="let account of accounts" (click)="goToAccount(account.id)">
             <div class="account-header">
               <span class="account-currency">{{ account.currency }}</span>
             </div>

@@ -50,4 +50,8 @@ export class DashboardComponent implements OnInit {
       .filter(a => a.currency === 'TRY')
       .reduce((sum, a) => sum + a.balance, 0);
   }
+
+  goToAccount(accountId: number): void {
+  this.router.navigate(['/accounts', accountId]);
+}
 }
