@@ -1,0 +1,28 @@
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  h4 {
+    margin: 0 0 16px 0;
+    font-size: 15px;
+    color: #1a1a2e;
+  }
+}
+
+.chart-wrapper {
+  height: 260px;
+  position: relative;
+}

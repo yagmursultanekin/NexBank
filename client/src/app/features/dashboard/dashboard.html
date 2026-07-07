@@ -25,6 +25,13 @@
         <p class="summary-label">Toplam Bakiye (TL)</p>
         <h2 class="summary-value">{{ getTotalBalance() | number:'1.2-2' }} ₺</h2>
       </section>
+  <section class="analytics-link-card" (click)="goToAnalytics()">
+  <div>
+    <h3>📊 Analizlerim</h3>
+    <p>Bakiye değişimi ve gelir/gider dağılımını görüntüle</p>
+  </div>
+  <span class="arrow">→</span>
+</section>
 
       <section class="accounts-section">
         <h3>Hesaplarım</h3>
