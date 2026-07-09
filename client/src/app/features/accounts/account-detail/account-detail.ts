@@ -72,6 +72,18 @@ export class AccountDetailComponent implements OnInit {
     }
   }
 
+  onStartDateChange(endInput: HTMLInputElement): void {
+    // Başlangıç seçilince mevcut aralıkla listeyi güncelle,
+    // ardından bitiş tarihi takvimini otomatik aç
+    this.onFilterChange();
+    try {
+      endInput.showPicker();
+    } catch {
+      // showPicker desteklenmeyen tarayıcılarda sessizce geç —
+      // kullanıcı bitiş tarihini elle seçmeye devam edebilir
+    }
+  }
+
   goBack(): void {
     this.router.navigate(['/dashboard']);
   }

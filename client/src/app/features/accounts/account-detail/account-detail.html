@@ -37,9 +37,9 @@
       <div class="transactions-header">
         <h3>İşlem Geçmişi</h3>
         <div class="date-filters">
-          <input type="date" [(ngModel)]="startDate" (change)="onFilterChange()" />
+          <input type="date" [(ngModel)]="startDate" (change)="onStartDateChange(endDateInput)" />
           <span>—</span>
-          <input type="date" [(ngModel)]="endDate" (change)="onFilterChange()" />
+          <input #endDateInput type="date" [(ngModel)]="endDate" (change)="onFilterChange()" />
         </div>
       </div>
 
