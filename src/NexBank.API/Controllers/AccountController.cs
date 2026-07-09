@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
         return Ok(accounts);
     }
 
-    [HttpGet("{accountId:int}/transactions")]
+    [HttpGet("{accountId:int}")]
     public async Task<IActionResult> GetAccountById(int accountId)
     {
         var userId = GetUserId();
