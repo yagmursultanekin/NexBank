@@ -1,0 +1,58 @@
+<div class="atm-container">
+
+  <header class="atm-header">
+    <button class="back-btn" (click)="goBack()">← Geri</button>
+    <h1>En Yakın ATM ve Şubeler</h1>
+  </header>
+
+  <main class="atm-main">
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="controls">
+      <div class="filter-group">
+        <label>Göster:</label>
+        <select [(ngModel)]="typeFilter" (change)="applyFilter()">
+          <option value="all">Tümü</option>
+          <option value="ATM">Sadece ATM'ler</option>
+          <option value="Şube">Sadece Şubeler</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Mesafe:</label>
+        <select [(ngModel)]="distanceKm" (change)="loadBranches()">
+          <option [value]="1">1 km</option>
+          <option [value]="3">3 km</option>
+          <option [value]="5">5 km</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="content-grid">
+
+      <div id="branch-map" class="map-panel"></div>
+
+      <div class="list-panel">
+        <div class="loading" *ngIf="isLoading">Yükleniyor...</div>
+
+        <div class="empty-state" *ngIf="!isLoading && filteredBranches.length === 0">
+          Bu mesafede sonuç bulunamadı.
+        </div>
+
+        <div class="branch-item" *ngFor="let branch of filteredBranches" (click)="focusBranch(branch)">
+          <div class="branch-icon">{{ branch.type === 'ATM' ? '🏧' : '🏦' }}</div>
+          <div class="branch-info">
+            <p class="branch-name">{{ branch.name }}</p>
+            <p class="branch-address">{{ branch.address }}</p>
+            <p class="branch-phone" *ngIf="branch.phone">📞 {{ branch.phone }}</p>
+          </div>
+          <div class="branch-distance">{{ branch.distanceKm | number:'1.2-2' }} km</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>

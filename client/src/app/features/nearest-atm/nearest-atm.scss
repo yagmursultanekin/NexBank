@@ -1,0 +1,157 @@
+.atm-container {
+  min-height: 100vh;
+  background: #f4f6fb;
+}
+
+.atm-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #16213e;
+  color: white;
+  padding: 20px 32px;
+
+  h1 {
+    font-size: 22px;
+    margin: 0;
+  }
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.atm-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+.error-message {
+  background: #fff0f0;
+  color: #e53e3e;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.controls {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+  }
+
+  select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+  }
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.map-panel {
+  height: 520px;
+  border-radius: 12px;
+  z-index: 0;
+}
+
+.list-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 8px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.loading,
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.branch-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f4f6fb;
+  }
+}
+
+.branch-icon {
+  font-size: 24px;
+}
+
+.branch-info {
+  flex: 1;
+  min-width: 0;
+
+  p {
+    margin: 0;
+  }
+}
+
+.branch-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #16213e;
+}
+
+.branch-address {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.branch-phone {
+  font-size: 12px;
+  color: #888;
+}
+
+.branch-distance {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f3460;
+  white-space: nowrap;
+}

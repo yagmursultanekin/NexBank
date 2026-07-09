@@ -63,6 +63,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 // Service kayıtları
 builder.Services.AddScoped<IAccountService, VakifBankAccountService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBranchService, VakifBankBranchService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(cfg =>
