@@ -27,6 +27,10 @@ export class RegisterComponent {
   ) {}
 
   onSubmit(): void {
+    if (!this.registerData.email.trim().toLowerCase().endsWith('@uzaybank.com')) {
+      this.errorMessage = 'Yalnızca @uzaybank.com uzantılı e-posta adresleri ile kayıt olunabilir.';
+      return;
+    }
     this.isLoading = true;
     this.errorMessage = '';
 
