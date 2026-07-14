@@ -14,4 +14,6 @@ public interface IAccountService
     Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(int accountId, DateTime startDate, DateTime endDate);
     Task<bool> IsAccountOwnedByUserAsync(int accountId, int userId);
     Task<TransactionDto?> AddTransactionAsync(int accountId, int userId, CreateTransactionDto dto);
+    Task<List<TransactionDto>> GetAllTransactionsByUserIdAsync(
+    int userId, DateTime startDate, DateTime endDate);
 }

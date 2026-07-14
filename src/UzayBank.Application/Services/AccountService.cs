@@ -72,4 +72,21 @@ public class AccountService : IAccountService
 
         return _mapper.Map<TransactionDto>(transaction);
     }
+    /// <summary>
+    /// Kullanıcının tüm hesaplarındaki işlemleri birleştirir (MSSQL kaynağı).
+    /// </summary>
+    public async Task<List<TransactionDto>> GetAllTransactionsByUserIdAsync(
+        int userId, DateTime startDate, DateTime endDate)
+    {
+        var accounts = await GetAccountsByUserIdAsync(userId);
+
+        var all = new List<TransactionDto>();
+        foreach (var account in accounts)
+        {
+            var txs = await GetTransactionsByAccountIdAsync(account.Id, startDate, endDate);
+            all.AddRange(txs);
+        }
+
+        return all.OrderByDescending(t => t.TransactionDate).ToList();
+    }
 }

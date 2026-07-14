@@ -2,6 +2,7 @@
 using UzayBank.Application.DTOs;
 using UzayBank.Application.Interfaces;
 using UzayBank.Domain.Enums;
+using UzayBank.Domain.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -12,19 +13,24 @@ public class VakifBankAccountService : IAccountService
     private readonly HttpClient _httpClient;
     private readonly VakifBankAuthService _authService;
     private readonly IConfiguration _configuration;
+    private readonly IUserAccountRepository _userAccounts;
 
-    // Hesap listesi önbelleği — istekler arası paylaşılır (servis scoped olduğu için static)
-    private static List<AccountDto>? _cachedAccounts;
+    // VakıfBank'tan gelen HAM hesap listesi.
+    // Sandbox tek kurumsal kimlik verdiği için bu liste tüm kullanıcılar için aynıdır.
+    private static List<AccountDto>? _cachedAllAccounts;
     private static DateTime _cacheExpiry = DateTime.MinValue;
     private static readonly object _cacheLock = new();
+
     public VakifBankAccountService(
         HttpClient httpClient,
         VakifBankAuthService authService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IUserAccountRepository userAccounts)
     {
         _httpClient = httpClient;
         _authService = authService;
         _configuration = configuration;
+        _userAccounts = userAccounts;
     }
 
     // Tüm VakıfBank çağrıları için ortak POST metodu
@@ -50,19 +56,25 @@ public class VakifBankAccountService : IAccountService
             throw new InvalidOperationException(
                 $"VakıfBank WAF isteği reddetti (HTML döndü). Cevap: {content}");
 
+        // EnsureSuccessStatusCode() hata gövdesini kaybediyordu.
+        // Kendi exception'ımız ham cevabı taşır — böylece ACBH000202 (hareket yok)
+        // ile gerçek hatalar (rıza geçersiz, yetki vb.) ayırt edilebilir.
         if (!response.IsSuccessStatusCode)
             throw new VakifBankApiException(response.StatusCode, content);
 
         return content;
     }
 
-    public async Task<List<AccountDto>> GetAccountsByUserIdAsync(int userId)
+    /// <summary>
+    /// VakıfBank'tan TÜM hesapları çeker. Kullanıcı ayrımı yapmaz.
+    /// Sandbox tek kurumsal kimlik verdiği için gelen liste herkes için aynıdır.
+    /// </summary>
+    private async Task<List<AccountDto>> GetAllAccountsFromApiAsync()
     {
-        // Önbellek taze ise API'ye hiç gitme
         lock (_cacheLock)
         {
-            if (_cachedAccounts != null && DateTime.UtcNow < _cacheExpiry)
-                return _cachedAccounts;
+            if (_cachedAllAccounts != null && DateTime.UtcNow < _cacheExpiry)
+                return _cachedAllAccounts;
         }
 
         var content = await PostAsync("/accountList", "{}");
@@ -90,7 +102,7 @@ public class VakifBankAccountService : IAccountService
         {
             accounts.Add(new AccountDto
             {
-                Id = id++, // Liste sırasından üretilen kimlik — controller bu Id ile çalışıyor
+                Id = id++, // Liste sırasından üretilen kimlik — gerçek kimlik AccountNumber
                 AccountNumber = item.TryGetProperty("AccountNumber", out var an) ? an.GetString() ?? "" : "",
                 IBAN = item.TryGetProperty("IBAN", out var ib) ? ib.GetString() ?? "" : "",
                 Currency = item.TryGetProperty("CurrencyCode", out var cc) ? cc.GetString() ?? "" : "",
@@ -101,24 +113,52 @@ public class VakifBankAccountService : IAccountService
 
         lock (_cacheLock)
         {
-            _cachedAccounts = accounts;
+            _cachedAllAccounts = accounts;
             _cacheExpiry = DateTime.UtcNow.AddMinutes(2);
         }
 
         return accounts;
     }
 
+    /// <summary>
+    /// GEÇİCİ: Eşleme stratejisi belirlenmediği için kullanıcı bazlı filtreleme devre dışı.
+    /// UserAccounts tablosu ve repository hazır — karar verilince yorum satırları açılacak.
+    /// </summary>
+    public async Task<List<AccountDto>> GetAccountsByUserIdAsync(int userId)
+    {
+        var allAccounts = await GetAllAccountsFromApiAsync();
+
+        // TODO: Eşleme stratejisi seçilince aç
+        // var linkedNumbers = await _userAccounts.GetAccountNumbersByUserIdAsync(userId);
+        // return allAccounts.Where(a => linkedNumbers.Contains(a.AccountNumber)).ToList();
+
+        return allAccounts;
+    }
+
     public async Task<AccountDto?> GetAccountByIdAsync(int accountId)
     {
-        var accounts = await GetAccountsByUserIdAsync(0);
-        Console.WriteLine($"HESAP ARAMA: istenen Id={accountId}, listedeki Id'ler: [{string.Join(", ", accounts.Select(a => a.Id))}]");
+        var accounts = await GetAllAccountsFromApiAsync();
         return accounts.FirstOrDefault(a => a.Id == accountId);
+    }
+
+    /// <summary>
+    /// GEÇİCİ: Sandbox tek kurumsal kimlik verdiği ve eşleme stratejisi
+    /// belirlenmediği için sahiplik kontrolü şu an devre dışı.
+    /// </summary>
+    public async Task<bool> IsAccountOwnedByUserAsync(int accountId, int userId)
+    {
+        // TODO: Eşleme stratejisi seçilince aç
+        // var allAccounts = await GetAllAccountsFromApiAsync();
+        // var account = allAccounts.FirstOrDefault(a => a.Id == accountId);
+        // if (account == null) return false;
+        // return await _userAccounts.IsLinkedAsync(userId, account.AccountNumber);
+
+        return await Task.FromResult(true);
     }
 
     public async Task<List<TransactionDto>> GetTransactionsByAccountIdAsync(
         int accountId, DateTime startDate, DateTime endDate)
     {
-        // Önce hesabı bul, VakıfBank'ın beklediği AccountNumber'a çevir
         var account = await GetAccountByIdAsync(accountId);
         if (account == null)
             return new List<TransactionDto>();
@@ -176,7 +216,6 @@ public class VakifBankAccountService : IAccountService
         return transactions;
     }
 
-
     private static decimal ParseDecimal(JsonElement element)
     {
         if (element.ValueKind == JsonValueKind.Number)
@@ -189,17 +228,29 @@ public class VakifBankAccountService : IAccountService
         return 0;
     }
 
-    public async Task<bool> IsAccountOwnedByUserAsync(int accountId, int userId)
-    {
-        // Sandbox'ta tüm hesaplar tek API kullanıcısına ait olduğundan sahiplik hep doğru.
-        // Gerçek çok kullanıcılı senaryoda kullanıcı-hesap eşlemesi gerekir.
-        return await Task.FromResult(true);
-    }
-
     public async Task<TransactionDto?> AddTransactionAsync(
         int accountId, int userId, CreateTransactionDto dto)
     {
         // VakıfBank sandbox'ı işlem ekleme sunmuyor; bu özellik MSSQL kaynağında çalışır.
         return await Task.FromResult<TransactionDto?>(null);
+    }
+
+    public async Task<List<TransactionDto>> GetAllTransactionsByUserIdAsync(
+        int userId, DateTime startDate, DateTime endDate)
+    {
+        var accounts = await GetAccountsByUserIdAsync(userId);
+
+        // Hesapları PARALEL çek — sırayla çekseydik 6 hesap × ~350ms = 2+ saniye.
+        // Paralel çekince toplam süre en yavaş isteğin süresi kadar (~350ms).
+        var tasks = accounts.Select(a =>
+            GetTransactionsByAccountIdAsync(a.Id, startDate, endDate));
+
+        var results = await Task.WhenAll(tasks);
+
+        // Tüm hesapların işlemlerini tek listede birleştir, tarihe göre sırala (yeniden eskiye)
+        return results
+            .SelectMany(list => list)
+            .OrderByDescending(t => t.TransactionDate)
+            .ToList();
     }
 }

@@ -51,6 +51,7 @@ builder.Services.AddHttpClient<VakifBankAccountService>()
 //rest json 
 // Repository kayıtları
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
 // Service kayıtları
 builder.Services.AddScoped<IAccountService, VakifBankAccountService>();

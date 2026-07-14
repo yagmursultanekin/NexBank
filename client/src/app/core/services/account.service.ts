@@ -28,6 +28,16 @@ export class AccountService {
     );
   }
 
+  /**
+   * Kullanıcının TÜM hesaplarındaki işlemleri birleştirip getirir.
+   * Analiz sayfası için — backend 6 hesabı paralel çekip tek listede döndürüyor.
+   */
+  getAllTransactions(startDate: string, endDate: string): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(
+      `${this.apiUrl}/all-transactions?startDate=${startDate}&endDate=${endDate}`
+    );
+  }
+
   addTransaction(accountId: number, request: CreateTransactionRequest): Observable<Transaction> {
     return this.http.post<Transaction>(`${this.apiUrl}/${accountId}/transactions`, request);
   }

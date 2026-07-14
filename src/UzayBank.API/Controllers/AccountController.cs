@@ -52,6 +52,21 @@ public class AccountController : ControllerBase
 
         return Ok(account);
     }
+    [HttpGet("all-transactions")]
+    public async Task<IActionResult> GetAllTransactions(
+    [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+    {
+        var userId = GetUserId();
+        if (userId == null)
+            return Unauthorized();
+
+        // Sahiplik kontrolüne gerek yok — servis zaten sadece bu kullanıcının
+        // hesaplarını dolaşıyor. userId token'dan geliyor, istemciden değil.
+        var transactions = await _accountService.GetAllTransactionsByUserIdAsync(
+            userId.Value, startDate, endDate);
+
+        return Ok(transactions);
+    }
 
     [HttpGet("{accountId}/transactions")]
     public async Task<IActionResult> GetTransactions(int accountId, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)

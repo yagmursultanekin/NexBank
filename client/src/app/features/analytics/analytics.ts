@@ -23,28 +23,17 @@ export class AnalyticsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadTransactions();
   }
 
-  loadData(): void {
-    this.accountService.getAccountById(2).subscribe({
-      next: (accounts) => {
-        const tryAccount = accounts;
-        //.find(a => a.currency === 'TRY');
-        if (tryAccount) {
-          this.loadTransactions(tryAccount.id);
-        } else {
-          this.isLoading = false;
-        }
-      },
-      error: () => {
-        this.errorMessage = 'Veriler yüklenemedi.';
-        this.isLoading = false;
-      }
-    });
-  }
-
-  loadTransactions(accountId: number): void {
+  /**
+   * Kullanıcının TÜM hesaplarındaki son 30 günlük işlemleri çeker.
+   *
+   * Önceden tek bir hesap (id=2) sabit yazılmıştı; o hesapta hiç işlem
+   * olmadığı için analiz hep boş çıkıyordu. Artık backend tüm hesapları
+   * dolaşıp birleştiriyor.
+   */
+  loadTransactions(): void {
     const today = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(today.getDate() - 30);
@@ -52,7 +41,7 @@ export class AnalyticsComponent implements OnInit {
     const start = thirtyDaysAgo.toISOString().split('T')[0];
     const end = today.toISOString().split('T')[0];
 
-    this.accountService.getTransactions(accountId, start, end).subscribe({
+    this.accountService.getAllTransactions(start, end).subscribe({
       next: (data) => {
         this.transactions = data;
         this.isLoading = false;
