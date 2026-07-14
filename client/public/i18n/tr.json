@@ -1,0 +1,41 @@
+{
+  "COMMON": {
+    "LOADING": "Yükleniyor...",
+    "BACK": "Geri",
+    "ERROR": "Bir hata oluştu."
+  },
+  "AUTH": {
+    "LOGIN": "Giriş Yap",
+    "REGISTER": "Kayıt Ol",
+    "LOGOUT": "Güvenli Çıkış Yap",
+    "EMAIL": "E-posta",
+    "PASSWORD": "Şifre",
+    "FULL_NAME": "Ad Soyad",
+    "SESSION_EXPIRED": "Oturum süreniz doldu. Lütfen tekrar giriş yapın."
+  },
+  "DASHBOARD": {
+    "LOADING_ACCOUNTS": "Hesaplar yükleniyor...",
+    "TOTAL_BALANCE": "Toplam Bakiye (TL)",
+    "MY_ACCOUNTS": "Hesaplarım",
+    "MARKET": "Piyasa",
+    "LAST_UPDATE": "Son güncelleme:",
+    "BUY": "Alış:",
+    "SELL": "Satış:",
+    "ANALYTICS_TITLE": "Analizlerim",
+    "ANALYTICS_DESC": "Bakiye değişimi ve gelir/gider dağılımını görüntüle",
+    "ATM_TITLE": "En Yakın ATM ve Şubeler",
+    "ATM_DESC": "Konumunuza en yakın VakıfBank ATM ve şubelerini haritada görün"
+  },
+  "ANALYTICS": {
+    "TITLE": "Analiz",
+    "NO_DATA": "Analiz için yeterli veri yok.",
+    "INCOME": "Gelir",
+    "EXPENSE": "Gider"
+  },
+  "ACCOUNT": {
+    "IBAN": "IBAN",
+    "BALANCE": "Bakiye",
+    "TRANSACTIONS": "İşlem Geçmişi",
+    "NO_TRANSACTIONS": "Seçilen tarih aralığında işlem bulunamadı."
+  }
+}

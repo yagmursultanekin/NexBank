@@ -5,14 +5,15 @@
       <h1>UzayBank</h1>
     </div>
     <div class="header-right">
-      <button class="logout-btn" (click)="logout()">Güvenli Çıkış Yap</button>
+      <app-language-switcher></app-language-switcher>
+      <button class="logout-btn" (click)="logout()">{{ 'AUTH.LOGOUT' | translate }}</button>
     </div>
   </header>
 
   <main class="dashboard-main">
 
     <div class="loading" *ngIf="isLoading">
-      Hesaplar yükleniyor...
+      {{ 'DASHBOARD.LOADING_ACCOUNTS' | translate }}
     </div>
 
     <div class="error-message" *ngIf="errorMessage">
@@ -22,15 +23,15 @@
     <ng-container *ngIf="!isLoading && !errorMessage">
 
       <section class="summary-card">
-        <p class="summary-label">Toplam Bakiye (TL)</p>
+        <p class="summary-label">{{ 'DASHBOARD.TOTAL_BALANCE' | translate }}</p>
         <h2 class="summary-value">{{ getTotalBalance() | number:'1.2-2' }} ₺</h2>
       </section>
 
       <section class="market-strip" *ngIf="marketRates.length > 0">
         <div class="market-header">
-          <h3>💱 Piyasa</h3>
+          <h3>💱 {{ 'DASHBOARD.MARKET' | translate }}</h3>
           <span class="market-time" *ngIf="marketUpdateTime">
-            Son güncelleme: {{ marketUpdateTime | date:'dd.MM.yyyy HH:mm' }}
+            {{ 'DASHBOARD.LAST_UPDATE' | translate }} {{ marketUpdateTime | date:'dd.MM.yyyy HH:mm' }}
           </span>
         </div>
         <div class="market-grid">
@@ -38,8 +39,8 @@
             <p class="market-code">{{ rate.code }}</p>
             <p class="market-name">{{ rate.name }}</p>
             <div class="market-values">
-              <span>Alış: <b>{{ rate.saleRate | number:'1.2-4' }}</b></span>
-              <span>Satış: <b>{{ rate.purchaseRate | number:'1.2-4' }}</b></span>
+              <span>{{ 'DASHBOARD.BUY' | translate }} <b>{{ rate.saleRate | number:'1.2-4' }}</b></span>
+              <span>{{ 'DASHBOARD.SELL' | translate }} <b>{{ rate.purchaseRate | number:'1.2-4' }}</b></span>
             </div>
           </div>
         </div>
@@ -47,22 +48,22 @@
 
       <section class="analytics-link-card" (click)="goToAnalytics()">
         <div>
-          <h3>📊 Analizlerim</h3>
-          <p>Bakiye değişimi ve gelir/gider dağılımını görüntüle</p>
+          <h3>📊 {{ 'DASHBOARD.ANALYTICS_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ANALYTICS_DESC' | translate }}</p>
         </div>
         <span class="arrow">→</span>
       </section>
 
       <section class="analytics-link-card" (click)="goToNearestAtm()">
         <div>
-          <h3>🏧 En Yakın ATM ve Şubeler</h3>
-          <p>Konumunuza en yakın VakıfBank ATM ve şubelerini haritada görün</p>
+          <h3>🏧 {{ 'DASHBOARD.ATM_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ATM_DESC' | translate }}</p>
         </div>
         <span class="arrow">→</span>
       </section>
 
       <section class="accounts-section">
-        <h3>Hesaplarım</h3>
+        <h3>{{ 'DASHBOARD.MY_ACCOUNTS' | translate }}</h3>
 
         <div class="account-grid">
           <div class="account-card" *ngFor="let account of accounts" (click)="goToAccount(account.id)">

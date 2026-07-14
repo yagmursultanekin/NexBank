@@ -1,0 +1,29 @@
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #888;
+    transition: color 0.15s;
+
+    &:hover {
+      color: #333;
+    }
+
+    &.active {
+      color: #111;
+      font-weight: 700;
+    }
+  }
+
+  .divider {
+    color: #ccc;
+  }
+}

@@ -6,19 +6,18 @@ import { AuthService } from '../../core/services/auth.service';
 import { MarketService } from '../../core/services/market.service';
 import { Account } from '../../core/models/account.model';
 import { MarketRate } from '../../core/models/market.model';
-import { SpendingChartComponent } from './spending-chart/spending-chart';
-import { Transaction } from '../../core/models/transaction.model';
+import { LanguageSwitcherComponent } from '../../shared/language-switcher/language-switcher';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SpendingChartComponent],
+  imports: [CommonModule, LanguageSwitcherComponent, TranslatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
   accounts: Account[] = [];
-  transactions: Transaction[] = [];
   marketRates: MarketRate[] = [];
   marketUpdateTime = '';
   isLoading = true;
@@ -41,11 +40,6 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.accounts = data;
         this.isLoading = false;
-
-        const tryAccount = data.find(a => a.currency === 'TRY');
-        if (tryAccount) {
-          this.loadTransactions(tryAccount.id);
-        }
       },
     });
   }
@@ -85,6 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalBalance(): number {
+    // VakıfBank para birimini "TL" olarak dönüyor ("TRY" değil)
     return this.accounts
       .filter(a => a.currency === 'TL')
       .reduce((sum, a) => sum + a.balance, 0);
@@ -100,20 +95,5 @@ export class DashboardComponent implements OnInit {
 
   goToNearestAtm(): void {
     this.router.navigate(['/nearest-atm']);
-  }
-
-  loadTransactions(accountId: number): void {
-    const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-
-    const start = thirtyDaysAgo.toISOString().split('T')[0];
-    const end = today.toISOString().split('T')[0];
-
-    this.accountService.getTransactions(accountId, start, end).subscribe({
-      next: (data) => {
-        this.transactions = data;
-      }
-    });
   }
 }

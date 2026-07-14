@@ -1,0 +1,41 @@
+{
+  "COMMON": {
+    "LOADING": "Loading...",
+    "BACK": "Back",
+    "ERROR": "An error occurred."
+  },
+  "AUTH": {
+    "LOGIN": "Log In",
+    "REGISTER": "Sign Up",
+    "LOGOUT": "Secure Log Out",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "FULL_NAME": "Full Name",
+    "SESSION_EXPIRED": "Your session has expired. Please log in again."
+  },
+  "DASHBOARD": {
+    "LOADING_ACCOUNTS": "Loading accounts...",
+    "TOTAL_BALANCE": "Total Balance (TRY)",
+    "MY_ACCOUNTS": "My Accounts",
+    "MARKET": "Market",
+    "LAST_UPDATE": "Last updated:",
+    "BUY": "Buy:",
+    "SELL": "Sell:",
+    "ANALYTICS_TITLE": "My Analytics",
+    "ANALYTICS_DESC": "View balance changes and income/expense breakdown",
+    "ATM_TITLE": "Nearest ATMs and Branches",
+    "ATM_DESC": "See the nearest VakıfBank ATMs and branches on the map"
+  },
+  "ANALYTICS": {
+    "TITLE": "Analytics",
+    "NO_DATA": "Not enough data for analysis.",
+    "INCOME": "Income",
+    "EXPENSE": "Expense"
+  },
+  "ACCOUNT": {
+    "IBAN": "IBAN",
+    "BALANCE": "Balance",
+    "TRANSACTIONS": "Transaction History",
+    "NO_TRANSACTIONS": "No transactions found in the selected date range."
+  }
+}
