@@ -5,6 +5,13 @@
 }
 
 .dashboard-header {
+  .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .logo { width: 36px; height: 36px; }
+}
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -265,5 +272,16 @@
   b {
     color: #16213e;
   }
+
+  .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .logo {
+    width: 36px;
+    height: 36px;
+  }
+}
 }
 
