@@ -21,4 +21,16 @@ export class UzayAccountService {
   getTransactions(accountId: number): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.apiUrl}/${accountId}/transactions`);
   }
+
+  deposit(accountId: number, amount: number, description: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/deposit`, { accountId, amount, description });
+  }
+
+  withdraw(accountId: number, amount: number, description: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/withdraw`, { accountId, amount, description });
+  }
+
+  transfer(fromAccountId: number, toIban: string, amount: number, description: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/transfer`, { fromAccountId, toIban, amount, description });
+  }
 }

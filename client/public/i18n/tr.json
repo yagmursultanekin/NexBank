@@ -47,7 +47,7 @@
     "ANALYTICS_DESC": "Bakiye değişimi ve gelir/gider dağılımını görüntüle",
     "ATM_TITLE": "En Yakın ATM ve Şubeler",
     "ATM_DESC": "Konumunuza en yakın VakıfBank ATM ve şubelerini haritada görün",
-    "BANK_ACCOUNTS": "Banka Hesaplarım",
+    "BANK_ACCOUNTS": "Diğer Banka Hesaplarım",
     "UZAY_ACCOUNTS": "UzayBank Hesaplarım",
     "NEW_ACCOUNT": "Yeni Hesap",
     "NO_UZAY_ACCOUNTS": "Henüz UzayBank hesabınız yok. Yeni hesap açarak başlayın.",
@@ -99,7 +99,14 @@
     "EMAIL_DOMAIN_NOT_ALLOWED": "Yalnızca @uzaybank.com uzantılı e-posta adresleri ile kayıt olunabilir.",
     "EMAIL_ALREADY_EXISTS": "Bu e-posta adresi zaten kayıtlı.",
     "INVALID_CREDENTIALS": "E-posta veya şifre hatalı.",
-    "ACCOUNT_ALREADY_ASSIGNED": "Bu hesap zaten başka bir kullanıcıya atanmış."
+    "ACCOUNT_ALREADY_ASSIGNED": "Bu hesap zaten başka bir kullanıcıya atanmış.",
+    "INSUFFICIENT_FUNDS": "Yetersiz bakiye.",
+    "RECIPIENT_NOT_FOUND": "Alıcı hesap bulunamadı.",
+    "SAME_ACCOUNT": "Aynı hesaba transfer yapılamaz.",
+    "INVALID_AMOUNT": "Geçersiz tutar.",
+    "ACCOUNT_NOT_FOUND": "Hesap bulunamadı.",
+    "SENDER_ACCOUNT_NOT_FOUND": "Gönderen hesap bulunamadı.",
+    "TRANSFER_FAILED": "Transfer gerçekleştirilemedi."
   },
 
   "ADMIN": {
@@ -119,6 +126,13 @@
 
   "UZAY": {
     "DETAIL_TITLE": "UzayBank Hesap Detayı",
-    "NO_TRANSACTIONS": "Bu hesapta henüz işlem yok."
+    "NO_TRANSACTIONS": "Bu hesapta henüz işlem yok.",
+     "DEPOSIT": "Para Yatır",
+    "WITHDRAW": "Para Çek",
+    "TRANSFER": "Transfer",
+    "AMOUNT": "Tutar",
+    "DESCRIPTION": "Açıklama",
+    "RECIPIENT_IBAN": "Alıcı IBAN",
+    "PROCESSING": "İşleniyor..."
   }
 }

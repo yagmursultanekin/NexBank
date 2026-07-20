@@ -20,6 +20,18 @@
         <span class="info-label">{{ 'ACCOUNT.CURRENT_BALANCE' | translate }}</span>
         <span class="balance-value">{{ account.balance | number:'1.2-2' }} ₺</span>
       </div>
+
+      <div class="action-buttons">
+        <button class="action-btn deposit" (click)="openModal('deposit')">
+          {{ 'UZAY.DEPOSIT' | translate }}
+        </button>
+        <button class="action-btn withdraw" (click)="openModal('withdraw')">
+          {{ 'UZAY.WITHDRAW' | translate }}
+        </button>
+        <button class="action-btn transfer" (click)="openModal('transfer')">
+          {{ 'UZAY.TRANSFER' | translate }}
+        </button>
+      </div>
     </section>
 
     <section class="transactions-section">
@@ -53,4 +65,64 @@
     </section>
 
   </main>
+
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-box operation-modal" (click)="$event.stopPropagation()">
+
+      <div class="tabs">
+        <button
+          class="tab"
+          [class.active]="activeTab === 'deposit'"
+          (click)="switchTab('deposit')">
+          {{ 'UZAY.DEPOSIT' | translate }}
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'withdraw'"
+          (click)="switchTab('withdraw')">
+          {{ 'UZAY.WITHDRAW' | translate }}
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'transfer'"
+          (click)="switchTab('transfer')">
+          {{ 'UZAY.TRANSFER' | translate }}
+        </button>
+      </div>
+
+      <div class="tab-content">
+
+        <div class="form-field" *ngIf="activeTab === 'transfer'">
+          <label>{{ 'UZAY.RECIPIENT_IBAN' | translate }}</label>
+          <input type="text" [(ngModel)]="toIban" placeholder="TR..." />
+        </div>
+
+        <div class="form-field">
+          <label>{{ 'UZAY.AMOUNT' | translate }}</label>
+          <input type="number" [(ngModel)]="amount" min="0" step="0.01" placeholder="0.00" />
+        </div>
+
+        <div class="form-field">
+          <label>{{ 'UZAY.DESCRIPTION' | translate }}</label>
+          <input type="text" [(ngModel)]="description" />
+        </div>
+
+        <div class="modal-message" [ngClass]="messageType" *ngIf="message">
+          {{ message | translate }}
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="closeModal()">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button class="btn-confirm" (click)="submit()" [disabled]="isSubmitting">
+          {{ isSubmitting ? ('UZAY.PROCESSING' | translate) : ('COMMON.CONFIRM' | translate) }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
 </div>

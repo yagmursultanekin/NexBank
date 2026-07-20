@@ -57,3 +57,125 @@
   background: #0f3460;
   color: white;
 }
+
+.operation-modal {
+  max-width: 440px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.tabs .tab {
+  flex: 1;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tabs .tab:hover {
+  color: #0f3460;
+}
+
+.tabs .tab.active {
+  color: #0f3460;
+  border-bottom-color: #25bcd6;
+}
+
+.tab-content .form-field {
+  margin-bottom: 16px;
+}
+
+.tab-content .form-field label {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.tab-content .form-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.tab-content .form-field input:focus {
+  border-color: #25bcd6;
+}
+
+.modal-message {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.modal-message.error {
+  background: #fff0f0;
+  color: #e53e3e;
+}
+
+.modal-message.success {
+  background: #eefaf2;
+  color: #1a7f4b;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-btn.deposit {
+  background: #e8f8f0;
+  color: #1a7f4b;
+}
+
+.action-btn.deposit:hover {
+  background: #d4f2e3;
+}
+
+.action-btn.withdraw {
+  background: #fdecec;
+  color: #c53030;
+}
+
+.action-btn.withdraw:hover {
+  background: #fbdada;
+}
+
+.action-btn.transfer {
+  background: #0f3460;
+  color: white;
+}
+
+.action-btn.transfer:hover {
+  background: #16213e;
+}

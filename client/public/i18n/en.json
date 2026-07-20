@@ -47,7 +47,7 @@
     "ANALYTICS_DESC": "View balance changes and income/expense breakdown",
     "ATM_TITLE": "Nearest ATMs and Branches",
     "ATM_DESC": "See the nearest VakıfBank ATMs and branches on the map",
-    "BANK_ACCOUNTS": "My Bank Accounts",
+    "BANK_ACCOUNTS": "MY Other Bank Accounts",
     "UZAY_ACCOUNTS": "My UzayBank Accounts",
     "NEW_ACCOUNT": "New Account",
     "NO_UZAY_ACCOUNTS": "You don't have a UzayBank account yet. Create one to get started.",
@@ -99,7 +99,14 @@
     "EMAIL_DOMAIN_NOT_ALLOWED": "Only email addresses with the @uzaybank.com domain can register.",
     "EMAIL_ALREADY_EXISTS": "This email address is already registered.",
     "INVALID_CREDENTIALS": "Invalid email or password.",
-    "ACCOUNT_ALREADY_ASSIGNED": "This account is already assigned to another user."
+    "ACCOUNT_ALREADY_ASSIGNED": "This account is already assigned to another user.",
+    "INSUFFICIENT_FUNDS": "Insufficient funds.",
+    "RECIPIENT_NOT_FOUND": "Recipient account not found.",
+    "SAME_ACCOUNT": "Cannot transfer to the same account.",
+    "INVALID_AMOUNT": "Invalid amount.",
+    "ACCOUNT_NOT_FOUND": "Account not found.",
+    "SENDER_ACCOUNT_NOT_FOUND": "Sender account not found.",
+    "TRANSFER_FAILED": "Transfer failed."
   },
   "ADMIN": {
     "TITLE": "Admin Panel",
@@ -117,6 +124,13 @@
   },
   "UZAY": {
     "DETAIL_TITLE": "UzayBank Account Details",
-    "NO_TRANSACTIONS": "No transactions in this account yet."
+    "NO_TRANSACTIONS": "No transactions in this account yet.",
+    "DEPOSIT": "Deposit",
+    "WITHDRAW": "Withdraw",
+    "TRANSFER": "Transfer",
+    "AMOUNT": "Amount",
+    "DESCRIPTION": "Description",
+    "RECIPIENT_IBAN": "Recipient IBAN",
+    "PROCESSING": "Processing..."
   }
 }
