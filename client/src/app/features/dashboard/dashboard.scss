@@ -209,6 +209,40 @@
 
 }
 
+.create-account-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f3460;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 52, 96, 0.2);
+  transition: all 0.2s;
+
+  .btn-icon {
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  &:hover:not(:disabled) {
+    background: #16213e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 52, 96, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
 .market-strip {
   background: white;
   border-radius: 12px;
@@ -283,5 +317,105 @@
     height: 36px;
   }
 }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 { margin: 0; }
 }
 
+.uzay-section {
+  margin-top: 32px;
+}
+
+.empty-state {
+  background: white;
+  border-radius: 14px;
+  padding: 32px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.uzay-card {
+  border-left: 4px solid #25bcd6;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 52, 96, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.2s ease;
+
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #0f3460;
+  }
+
+  p {
+    margin: 0 0 24px 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-cancel {
+    background: #f0f0f0;
+    color: #555;
+
+    &:hover { background: #e4e4e4; }
+  }
+
+  .btn-confirm {
+    background: #0f3460;
+    color: white;
+
+    &:hover { background: #16213e; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}}

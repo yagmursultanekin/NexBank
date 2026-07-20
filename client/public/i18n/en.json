@@ -2,7 +2,9 @@
   "COMMON": {
     "LOADING": "Loading...",
     "BACK": "Back",
-    "ERROR": "An error occurred."
+    "ERROR": "An error occurred.",
+    "CONFIRM": "Confirm",
+    "CANCEL": "Cancel"
   },
  "AUTH": {
     "LOGIN": "Log In",
@@ -44,7 +46,13 @@
     "ANALYTICS_TITLE": "My Analytics",
     "ANALYTICS_DESC": "View balance changes and income/expense breakdown",
     "ATM_TITLE": "Nearest ATMs and Branches",
-    "ATM_DESC": "See the nearest VakıfBank ATMs and branches on the map"
+    "ATM_DESC": "See the nearest VakıfBank ATMs and branches on the map",
+    "BANK_ACCOUNTS": "My Bank Accounts",
+    "UZAY_ACCOUNTS": "My UzayBank Accounts",
+    "NEW_ACCOUNT": "New Account",
+    "NO_UZAY_ACCOUNTS": "You don't have a UzayBank account yet. Create one to get started.",
+    "CONFIRM_NEW_ACCOUNT": "Are you sure you want to open a new UzayBank account?",
+    "CREATING": "Creating..."
   },
   "ANALYTICS": {
     "TITLE": "My Analytics",

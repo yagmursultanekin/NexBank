@@ -7,7 +7,8 @@ import { MarketService } from '../../core/services/market.service';
 import { Account } from '../../core/models/account.model';
 import { MarketRate } from '../../core/models/market.model';
 import { LanguageSwitcherComponent } from '../../shared/language-switcher/language-switcher';
-import { TranslatePipe } from '@ngx-translate/core';
+import { UzayAccountService } from '../../core/services/uzay-account.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class DashboardComponent implements OnInit {
   accounts: Account[] = [];
+  uzayAccounts: Account[] = [];     
+  isCreatingAccount = false;
+  showConfirmModal = false;
   marketRates: MarketRate[] = [];
   marketUpdateTime = '';
   isLoading = true;
@@ -25,13 +29,16 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
+    private uzayAccountService: UzayAccountService,
     private authService: AuthService,
     private marketService: MarketService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
     this.loadAccounts();
+    this.loadUzayAccounts();
     this.loadMarketRates();
   }
 
@@ -72,6 +79,44 @@ export class DashboardComponent implements OnInit {
         this.marketRates = [];
       }
     });
+  }
+
+  loadUzayAccounts(): void {
+    this.uzayAccountService.getMyAccounts().subscribe({
+      next: (data) => {
+        this.uzayAccounts = data;
+      }
+    });
+  }
+
+// Buton bunu çağırır — sadece modal'ı açar
+  createUzayAccount(): void {
+    this.showConfirmModal = true;
+  }
+
+  // Modal'daki "Onayla" bunu çağırır
+  confirmCreateAccount(): void {
+    this.showConfirmModal = false;
+    this.isCreatingAccount = true;
+
+    this.uzayAccountService.createAccount('TL').subscribe({
+      next: () => {
+        this.isCreatingAccount = false;
+        this.loadUzayAccounts();
+      },
+      error: () => {
+        this.isCreatingAccount = false;
+      }
+    });
+  }
+
+  // Modal'daki "İptal" bunu çağırır
+  cancelCreateAccount(): void {
+    this.showConfirmModal = false;
+  }
+
+  getUzayTotalBalance(): number {
+    return this.uzayAccounts.reduce((sum, a) => sum + a.balance, 0);
   }
 
   logout(): void {

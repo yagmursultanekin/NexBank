@@ -4,7 +4,6 @@
     <div class="header-left">
       <img src="/uzaybank-logo-badge.svg" alt="UzayBank" class="logo" />
       <h1>UzayBank</h1>
-      
     </div>
     <div class="header-right">
       <app-language-switcher></app-language-switcher>
@@ -68,7 +67,7 @@
       </section>
 
       <section class="accounts-section">
-        <h3>{{ 'DASHBOARD.MY_ACCOUNTS' | translate }}</h3>
+        <h3>{{ 'DASHBOARD.BANK_ACCOUNTS' | translate }}</h3>
 
         <div class="account-grid">
           <div class="account-card" *ngFor="let account of accounts" (click)="goToAccount(account.id)">
@@ -85,7 +84,51 @@
         </div>
       </section>
 
+      <section class="accounts-section uzay-section">
+        <div class="section-header">
+          <h3>{{ 'DASHBOARD.UZAY_ACCOUNTS' | translate }}</h3>
+          <button class="create-account-btn" (click)="createUzayAccount()" [disabled]="isCreatingAccount">
+            <span class="btn-icon">+</span>
+            {{ isCreatingAccount ? ('DASHBOARD.CREATING' | translate) : ('DASHBOARD.NEW_ACCOUNT' | translate) }}
+          </button>
+        </div>
+
+        <div class="empty-state" *ngIf="uzayAccounts.length === 0">
+          {{ 'DASHBOARD.NO_UZAY_ACCOUNTS' | translate }}
+        </div>
+
+        <div class="account-grid" *ngIf="uzayAccounts.length > 0">
+          <div class="account-card uzay-card" *ngFor="let account of uzayAccounts">
+            <div class="account-header">
+              <span class="account-currency">{{ account.currency }}</span>
+            </div>
+            <p class="account-number">{{ account.accountNumber }}</p>
+            <p class="account-iban">{{ account.iban }}</p>
+            <h4 class="account-balance">
+              {{ account.balance | number:'1.2-2' }} ₺
+            </h4>
+          </div>
+        </div>
+      </section>
+
     </ng-container>
 
   </main>
+
+  <!-- Hesap açma onay modalı -->
+  <div class="modal-overlay" *ngIf="showConfirmModal" (click)="cancelCreateAccount()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <h3>{{ 'DASHBOARD.NEW_ACCOUNT' | translate }}</h3>
+      <p>{{ 'DASHBOARD.CONFIRM_NEW_ACCOUNT' | translate }}</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelCreateAccount()">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button class="btn-confirm" (click)="confirmCreateAccount()">
+          {{ 'COMMON.CONFIRM' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>

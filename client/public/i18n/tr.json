@@ -2,7 +2,9 @@
   "COMMON": {
     "LOADING": "Yükleniyor...",
     "BACK": "Geri",
-    "ERROR": "Bir hata oluştu."
+    "ERROR": "Bir hata oluştu.",
+    "CONFIRM": "Onayla",
+    "CANCEL": "İptal"
   },
 "AUTH": {
     "LOGIN": "Giriş Yap",
@@ -44,7 +46,13 @@
     "ANALYTICS_TITLE": "Analizlerim",
     "ANALYTICS_DESC": "Bakiye değişimi ve gelir/gider dağılımını görüntüle",
     "ATM_TITLE": "En Yakın ATM ve Şubeler",
-    "ATM_DESC": "Konumunuza en yakın VakıfBank ATM ve şubelerini haritada görün"
+    "ATM_DESC": "Konumunuza en yakın VakıfBank ATM ve şubelerini haritada görün",
+    "BANK_ACCOUNTS": "Banka Hesaplarım",
+    "UZAY_ACCOUNTS": "UzayBank Hesaplarım",
+    "NEW_ACCOUNT": "Yeni Hesap",
+    "NO_UZAY_ACCOUNTS": "Henüz UzayBank hesabınız yok. Yeni hesap açarak başlayın.",
+    "CONFIRM_NEW_ACCOUNT": "Yeni bir UzayBank hesabı açmak istediğinize emin misiniz?",
+    "CREATING": "Açılıyor..."
   },
  "ANALYTICS": {
     "TITLE": "Analizlerim",
