@@ -179,3 +179,28 @@
 .action-btn.transfer:hover {
   background: #16213e;
 }
+
+.currency-select {
+  margin-bottom: 20px;
+}
+
+.currency-select label {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.currency-select select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+}
+
+.currency-select select:focus {
+  border-color: #25bcd6;
+}

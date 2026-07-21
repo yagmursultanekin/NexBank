@@ -110,6 +110,8 @@ public class UzayAccountService : IUzayAccountService
 
         if (to.Id == from.Id)
             return Fail("SAME_ACCOUNT");
+        if (from.Currency != to.Currency)
+            return Fail("CURRENCY_MISMATCH");
 
         if (from.Balance < dto.Amount)
             return Fail("INSUFFICIENT_FUNDS");

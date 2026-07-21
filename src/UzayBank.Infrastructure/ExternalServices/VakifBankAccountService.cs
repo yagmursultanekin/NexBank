@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
-using UzayBank.Application.DTOs;
-using UzayBank.Application.Interfaces;
-using UzayBank.Domain.Enums;
-using UzayBank.Domain.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using UzayBank.Application.DTOs;
+using UzayBank.Application.Interfaces;
+using UzayBank.Domain.Entities;
+using UzayBank.Domain.Enums;
+using UzayBank.Domain.Interfaces;
+using UzayBank.Infrastructure.Services;
 
 namespace UzayBank.Infrastructure.ExternalServices;
 

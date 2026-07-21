@@ -52,7 +52,8 @@
     "NEW_ACCOUNT": "Yeni Hesap",
     "NO_UZAY_ACCOUNTS": "Henüz UzayBank hesabınız yok. Yeni hesap açarak başlayın.",
     "CONFIRM_NEW_ACCOUNT": "Yeni bir UzayBank hesabı açmak istediğinize emin misiniz?",
-    "CREATING": "Açılıyor..."
+    "CREATING": "Açılıyor...",
+    "SELECT_CURRENCY": "Para Birimi"
   },
  "ANALYTICS": {
     "TITLE": "Analizlerim",
@@ -106,7 +107,8 @@
     "INVALID_AMOUNT": "Geçersiz tutar.",
     "ACCOUNT_NOT_FOUND": "Hesap bulunamadı.",
     "SENDER_ACCOUNT_NOT_FOUND": "Gönderen hesap bulunamadı.",
-    "TRANSFER_FAILED": "Transfer gerçekleştirilemedi."
+    "TRANSFER_FAILED": "Transfer gerçekleştirilemedi.",
+    "CURRENCY_MISMATCH": "Farklı para birimindeki hesaplar arasında transfer yapılamaz."
   },
 
   "ADMIN": {

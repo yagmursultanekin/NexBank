@@ -105,7 +105,7 @@
             <p class="account-number">{{ account.accountNumber }}</p>
             <p class="account-iban">{{ account.iban }}</p>
             <h4 class="account-balance">
-              {{ account.balance | number:'1.2-2' }} ₺
+              {{ account.balance | number:'1.2-2' }} {{ getCurrencySymbol(account.currency) }}
             </h4>
           </div>
         </div>
@@ -119,6 +119,14 @@
     <div class="modal-box" (click)="$event.stopPropagation()">
       <h3>{{ 'DASHBOARD.NEW_ACCOUNT' | translate }}</h3>
       <p>{{ 'DASHBOARD.CONFIRM_NEW_ACCOUNT' | translate }}</p>
+
+      <div class="currency-select">
+        <label>{{ 'DASHBOARD.SELECT_CURRENCY' | translate }}</label>
+        <select [(ngModel)]="selectedCurrency">
+          <option *ngFor="let c of availableCurrencies" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
       <div class="modal-actions">
         <button class="btn-cancel" (click)="cancelCreateAccount()">
           {{ 'COMMON.CANCEL' | translate }}

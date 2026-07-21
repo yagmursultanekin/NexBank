@@ -52,7 +52,8 @@
     "NEW_ACCOUNT": "New Account",
     "NO_UZAY_ACCOUNTS": "You don't have a UzayBank account yet. Create one to get started.",
     "CONFIRM_NEW_ACCOUNT": "Are you sure you want to open a new UzayBank account?",
-    "CREATING": "Creating..."
+    "CREATING": "Creating...",
+    "SELECT_CURRENCY": "Currency"
   },
   "ANALYTICS": {
     "TITLE": "My Analytics",
@@ -106,7 +107,8 @@
     "INVALID_AMOUNT": "Invalid amount.",
     "ACCOUNT_NOT_FOUND": "Account not found.",
     "SENDER_ACCOUNT_NOT_FOUND": "Sender account not found.",
-    "TRANSFER_FAILED": "Transfer failed."
+    "TRANSFER_FAILED": "Transfer failed.",
+    "CURRENCY_MISMATCH": "Cannot transfer between accounts with different currencies."
   },
   "ADMIN": {
     "TITLE": "Admin Panel",

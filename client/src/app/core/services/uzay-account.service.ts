@@ -14,7 +14,7 @@ export class UzayAccountService {
     return this.http.get<Account[]>(`${this.apiUrl}/my`);
   }
 
-  createAccount(currency: string = 'TL'): Observable<Account> {
+  createAccount(currency: string): Observable<Account> {
     return this.http.post<Account>(this.apiUrl, { currency });
   }
 

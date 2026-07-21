@@ -9,11 +9,12 @@ import { MarketRate } from '../../core/models/market.model';
 import { LanguageSwitcherComponent } from '../../shared/language-switcher/language-switcher';
 import { UzayAccountService } from '../../core/services/uzay-account.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, LanguageSwitcherComponent, TranslatePipe],
+  imports: [CommonModule, FormsModule, LanguageSwitcherComponent, TranslatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -22,6 +23,8 @@ export class DashboardComponent implements OnInit {
   uzayAccounts: Account[] = [];     
   isCreatingAccount = false;
   showConfirmModal = false;
+  selectedCurrency = 'TL';
+  availableCurrencies = ['TL', 'USD', 'EUR', 'GBP'];
   marketRates: MarketRate[] = [];
   marketUpdateTime = '';
   isLoading = true;
@@ -88,18 +91,16 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
-// Buton bunu çağırır — sadece modal'ı açar
-  createUzayAccount(): void {
+createUzayAccount(): void {
+    this.selectedCurrency = 'TL';   // her açılışta varsayılana dön
     this.showConfirmModal = true;
   }
 
-  // Modal'daki "Onayla" bunu çağırır
   confirmCreateAccount(): void {
     this.showConfirmModal = false;
     this.isCreatingAccount = true;
 
-    this.uzayAccountService.createAccount('TL').subscribe({
+    this.uzayAccountService.createAccount(this.selectedCurrency).subscribe({
       next: () => {
         this.isCreatingAccount = false;
         this.loadUzayAccounts();
@@ -110,6 +111,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
   // Modal'daki "İptal" bunu çağırır
   cancelCreateAccount(): void {
     this.showConfirmModal = false;
@@ -119,15 +121,32 @@ export class DashboardComponent implements OnInit {
     return this.uzayAccounts.reduce((sum, a) => sum + a.balance, 0);
   }
 
+  getCurrencySymbol(currency: string): string {
+    switch (currency) {
+      case 'TL':
+      case 'TRY': return '₺';
+      case 'USD': return '$';
+      case 'EUR': return '€';
+      case 'GBP': return '£';
+      default: return currency;
+    }
+  }
+
   logout(): void {
     this.authService.logout();
   }
 
   getTotalBalance(): number {
     // VakıfBank para birimini "TL" olarak dönüyor ("TRY" değil)
-    return this.accounts
+     const bankTotal = this.accounts
       .filter(a => a.currency === 'TL')
       .reduce((sum, a) => sum + a.balance, 0);
+
+    const uzayTotal = this.uzayAccounts
+      .filter(a => a.currency === 'TL')
+      .reduce((sum, a) => sum + a.balance, 0);
+
+    return bankTotal + uzayTotal;
   }
 
   goToAccount(accountId: number): void {

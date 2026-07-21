@@ -18,7 +18,7 @@
       </div>
       <div class="balance-row">
         <span class="info-label">{{ 'ACCOUNT.CURRENT_BALANCE' | translate }}</span>
-        <span class="balance-value">{{ account.balance | number:'1.2-2' }} ₺</span>
+        <span class="balance-value">{{ account.balance | number:'1.2-2' }} {{ getCurrencySymbol(account.currency) }}</span>
       </div>
 
       <div class="action-buttons">
@@ -56,7 +56,7 @@
           </div>
           <div class="tx-amounts">
             <p class="tx-amount" [ngClass]="tx.type === TransactionType.Credit ? 'credit' : 'debit'">
-              {{ tx.type === TransactionType.Credit ? '+' : '−' }}{{ (tx.amount < 0 ? -tx.amount : tx.amount) | number:'1.2-2' }} ₺
+              {{ tx.type === TransactionType.Credit ? '+' : '−' }}{{ (tx.amount < 0 ? -tx.amount : tx.amount) | number:'1.2-2' }} {{ account ? getCurrencySymbol(account.currency) : '' }}
             </p>
             <p class="tx-balance">{{ 'ACCOUNT.BALANCE' | translate }} {{ tx.balanceAfterTransaction | number:'1.2-2' }}</p>
           </div>

@@ -139,6 +139,17 @@ export class UzayAccountDetailComponent implements OnInit {
     this.messageType = type;
   }
 
+  getCurrencySymbol(currency: string): string {
+    switch (currency) {
+      case 'TL':
+      case 'TRY': return '₺';
+      case 'USD': return '$';
+      case 'EUR': return '€';
+      case 'GBP': return '£';
+      default: return currency;
+    }
+  }
+
   goBack(): void {
     this.router.navigate(['/dashboard']);
   }
