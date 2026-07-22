@@ -24,4 +24,5 @@ public interface IUzayAccountService
 
     /// <summary>Hesaptan para çeker. Bakiye yetersizse başarısız döner.</summary>
     Task<TransferResultDto> WithdrawAsync(int userId, DepositWithdrawDto dto);
+    Task<List<TransactionDto>> GetAllTransactionsAsync(int userId, DateTime startDate, DateTime endDate);
 }

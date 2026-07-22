@@ -78,22 +78,8 @@ public class AccountController : ControllerBase
         var bankTransactions = await _accountService.GetAllTransactionsByUserIdAsync(
             userId.Value, startDate, endDate);
 
-        var uzayAccounts = await _uzayAccountService.GetMyAccountsAsync(userId.Value);
-
-        var uzayTransactions = new List<TransactionDto>();
-        foreach (var account in uzayAccounts)
-        {
-            var txs = await _uzayAccountService.GetTransactionsAsync(account.Id, userId.Value);
-
-            // Servis artık yetkisiz erişimde null dönüyor. Burada null beklenmez
-            // (hesapları zaten bu kullanıcı için çektik) ama derleyici uyarısını
-            // susturmak ve olası bir mantık hatasında çökmemek için kontrol ediyoruz.
-            if (txs == null)
-                continue;
-
-            uzayTransactions.AddRange(
-                txs.Where(t => t.TransactionDate >= startDate && t.TransactionDate < endDate.AddDays(1)));
-        }
+        var uzayTransactions = await _uzayAccountService.GetAllTransactionsAsync(
+      userId.Value, startDate, endDate);
 
         var combined = bankTransactions
             .Concat(uzayTransactions)

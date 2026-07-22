@@ -91,6 +91,46 @@ public class UzayAccountService : IUzayAccountService
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Kullanıcının tüm UzayBank hesaplarındaki işlemleri tek sorguda getirir.
+    ///
+    /// NEDEN AYRI METOT:
+    /// Daha önce controller her hesap için GetTransactionsAsync'i ayrı ayrı
+    /// çağırıyordu. 8 hesap için 8 sorgu (artı her birinde sahiplik kontrolü
+    /// için 8 sorgu daha) demekti — buna N+1 sorgu problemi denir.
+    /// Burada hesaplar ve işlemler tek seferde çekiliyor: 2 sorgu, hesap
+    /// sayısından bağımsız.
+    /// </summary>
+    public async Task<List<TransactionDto>> GetAllTransactionsAsync(
+        int userId, DateTime startDate, DateTime endDate)
+    {
+        // Kullanıcının hesap Id'leri — sahiplik kontrolü de burada yapılmış oluyor,
+        // çünkü yalnızca bu kullanıcıya ait hesapları seçiyoruz.
+        var accountIds = await _context.Accounts
+            .Where(a => a.UserId == userId && a.Source == AccountSource.UzayBank)
+            .Select(a => a.Id)
+            .ToListAsync();
+
+        if (accountIds.Count == 0)
+            return new List<TransactionDto>();
+
+        // Tek sorgu: Contains() SQL tarafında IN (...) koşuluna dönüşür.
+        return await _context.Transactions
+            .Where(t => accountIds.Contains(t.AccountId))
+            .Where(t => t.TransactionDate >= startDate && t.TransactionDate < endDate.AddDays(1))
+            .OrderByDescending(t => t.TransactionDate)
+            .Select(t => new TransactionDto
+            {
+                ID = t.Id,
+                Amount = t.Amount,
+                Type = t.Type,
+                Description = t.Description,
+                TransactionDate = t.TransactionDate,
+                BalanceAfterTransaction = t.BalanceAfterTransaction
+            })
+            .ToListAsync();
+    }
+
 
     public async Task<TransferResultDto> TransferAsync(int userId, TransferDto dto)
     {
