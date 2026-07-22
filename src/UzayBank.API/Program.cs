@@ -66,6 +66,9 @@ builder.Services.AddScoped<IBranchService, VakifBankBranchService>();
 builder.Services.AddScoped<IMarketService, VakifBankMarketService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IUzayAccountService, UzayAccountService>();
+// Global hata yönetimi
+builder.Services.AddExceptionHandler<UzayBank.API.Middlewares.GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 // Çıkış yapılmış token'ların kara listesi
 builder.Services.AddMemoryCache();
@@ -142,6 +145,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Hata yakalayıcı pipeline'ın en başında olmalı — sonraki tüm
+// middleware ve controller'larda oluşan hataları yakalayabilmesi için.
+app.UseExceptionHandler();
 
 // HTTP pipeline
 if (app.Environment.IsDevelopment())

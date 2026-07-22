@@ -4,16 +4,19 @@ using UzayBank.Application.Interfaces;
 using UzayBank.Domain.Entities;
 using UzayBank.Domain.Enums;
 using UzayBank.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging;
 
 namespace UzayBank.Infrastructure.Services;
 
 public class UzayAccountService : IUzayAccountService
 {
     private readonly UzayBankDbContext _context;
+    private readonly ILogger<UzayAccountService> _logger;
 
-    public UzayAccountService(UzayBankDbContext context)
+    public UzayAccountService(UzayBankDbContext context, ILogger<UzayAccountService> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public async Task<List<AccountDto>> GetMyAccountsAsync(int userId)
@@ -161,20 +164,25 @@ public class UzayAccountService : IUzayAccountService
                 NewBalance = from.Balance
             };
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
             // Araya başka bir işlem girdi ve hesabın bakiyesini değiştirdi.
-            // Bizim elimizdeki bakiye artık güncel değil, bu yüzden işlemi
-            // geri alıp kullanıcıdan tekrar denemesini istiyoruz.
-            //
-            // Otomatik retry yapmıyoruz: bakiye değiştiği için "yeterli bakiye"
-            // kontrolünün sonucu da değişmiş olabilir. Kullanıcının güncel
-            // bakiyeyi görüp karar vermesi daha doğru.
+            // Bu beklenen bir durum, hata değil — bu yüzden Warning seviyesi.
+            _logger.LogWarning(ex,
+                "Transfer çakışması. Gönderen: {FromAccountId}, Alıcı IBAN: {ToIban}",
+                dto.FromAccountId, toIban);
+
             await transaction.RollbackAsync();
             return Fail("CONCURRENT_MODIFICATION");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            // Burası beklenmeyen bir hata — mutlaka loglanmalı, yoksa
+            // "transfer neden başarısız?" sorusunun cevabı kaybolur.
+            _logger.LogError(ex,
+                "Transfer başarısız. Kullanıcı: {UserId}, Gönderen: {FromAccountId}, Tutar: {Amount}",
+                userId, dto.FromAccountId, dto.Amount);
+
             await transaction.RollbackAsync();
             return Fail("TRANSFER_FAILED");
         }
@@ -207,10 +215,10 @@ public class UzayAccountService : IUzayAccountService
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
-            // Yatırma işleminde bakiye kontrolü yok, ama eşzamanlı iki yatırma
-            // birbirini silebilir (100+50 ve 100+30 aynı anda → 150 yerine 130).
+            _logger.LogWarning(ex,
+                "Yatırma çakışması. Hesap: {AccountId}", dto.AccountId);
             return Fail("CONCURRENT_MODIFICATION");
         }
 
@@ -247,10 +255,10 @@ public class UzayAccountService : IUzayAccountService
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException ex)
         {
-            // Bakiye biz okuduktan sonra değişti — yetersiz bakiye kontrolü
-            // artık geçersiz olabilir, işlemi reddediyoruz.
+            _logger.LogWarning(ex,
+                "Çekme çakışması. Hesap: {AccountId}", dto.AccountId);
             return Fail("CONCURRENT_MODIFICATION");
         }
 
