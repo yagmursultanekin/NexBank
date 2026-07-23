@@ -71,6 +71,21 @@ public class UzayBankDbContext : DbContext
 
             // İşlem geçmişi her zaman hesap + tarih sırasıyla sorgulanıyor.
             entity.HasIndex(t => new { t.AccountId, t.TransactionDate });
+
+            // Hash alanları sabit uzunlukta metin.
+            // PreviousTxHash için 64 yerine biraz pay bırakıyoruz: hesabın ilk
+            // işleminde "GENESIS" gibi sabit bir değer tutuyor.
+            // Hash alanları metin olarak saklanıyor.
+            //
+            // SHA-256 çıktısı 32 bayt; her baytı iki hex karakterle yazdığımız için
+            // sonuç her zaman 64 karakter. Uzunluk belirtmezsek EF Core nvarchar(max)
+            // kullanır — bu tip satır dışında saklanır ve index'lenemez.
+            //
+            // Sabit uzunluk (char) yerine değişken uzunluk (nvarchar) kullanıyoruz,
+            // çünkü PreviousTxHash hesabın ilk işleminde "GENESIS" gibi daha kısa
+            // bir değer tutuyor.
+            entity.Property(t => t.TxHash).HasMaxLength(64);
+            entity.Property(t => t.PreviousTxHash).HasMaxLength(64);
         });
     }
 }

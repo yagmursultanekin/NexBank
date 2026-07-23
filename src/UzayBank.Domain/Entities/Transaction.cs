@@ -18,4 +18,26 @@ public class Transaction
     public DateTime TransactionDate { get; set;  }
     public decimal BalanceAfterTransaction {  get; set; }
 
+    /// <summary>
+    /// Bu işlem kaydının SHA-256 parmak izi.
+    ///
+    /// Kaydın alanlarından (tutar, tarih, tip, açıklama vb.) hesaplanır.
+    /// Kayıt sonradan değiştirilirse, yeniden hesaplanan hash bu değerle
+    /// tutmaz — kurcalama böyle tespit edilir.
+    ///
+    /// Nullable: bu alan eklenmeden önce oluşmuş kayıtların hash'i yoktur.
+    /// </summary>
+    public string? TxHash { get; set; }
+
+    /// <summary>
+    /// Aynı hesaptaki bir önceki işlemin TxHash değeri.
+    ///
+    /// Bu alan işlemleri birbirine bağlar. Ortadaki bir kaydı değiştirmek,
+    /// sonraki tüm kayıtların hash'ini de geçersiz kılar — tek bir kaydı
+    /// sessizce düzeltmek mümkün olmaz.
+    ///
+    /// Hesabın ilk işleminde "GENESIS" değerini alır.
+    /// </summary>
+    public string? PreviousTxHash { get; set; }
+
 }
