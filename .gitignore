@@ -427,3 +427,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Anvil yerel zincir durumu — geliştirme ortamına özgü, paylaşılmamalı
+contracts/anvil-state.json

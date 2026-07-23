@@ -68,6 +68,16 @@ builder.Services.AddScoped<IMarketService, VakifBankMarketService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IUzayAccountService, UzayAccountService>();
 builder.Services.AddScoped<IIntegrityService, IntegrityService>();
+
+// Blockchain ayarları user-secrets'tan okunuyor.
+// IOptions deseni: ayarlar tek yerden okunup servise enjekte ediliyor,
+// servis IConfiguration'a doğrudan bağımlı olmuyor.
+builder.Services.Configure<UzayBank.Infrastructure.Blockchain.BlockchainOptions>(
+    builder.Configuration.GetSection(
+        UzayBank.Infrastructure.Blockchain.BlockchainOptions.SectionName));
+
+builder.Services.AddScoped<IBlockchainAnchorService,
+    UzayBank.Infrastructure.Blockchain.BlockchainAnchorService>();
 // Hash servisi — işlem kayıtlarının değişmezlik parmak izini üretir.
 // Durum tutmadığı (stateless) için Singleton: her istekte yeni nesne
 // oluşturmaya gerek yok.
