@@ -161,4 +161,15 @@ public class UzayAccountController : ControllerBase
             anchoredAt = record.AnchoredAt
         });
     }
+
+    /// <summary>
+    /// GEÇİCİ TEST ENDPOINT'İ — blockchain'e yazma işlemini doğrulamak için.
+    /// Doğrulama tamamlandıktan sonra kaldırılacak.
+    /// </summary>
+    [HttpPost("{accountId:int}/blockchain-test")]
+    public async Task<IActionResult> BlockchainTestWrite(int accountId, [FromQuery] string hash)
+    {
+        var txHash = await _blockchainService.AnchorAsync(accountId, hash);
+        return Ok(new { transactionHash = txHash });
+    }
 }
